@@ -24,7 +24,7 @@ export class UserService {
     if (conflict) {
       throw new UnprocessableEntityException('Login already taken');
     }
-    console.log(bcrypt);
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const today = Date.now();
     return this.userRepository.create({
@@ -61,7 +61,7 @@ export class UserService {
     });
   }
 
-  deleteUser(id: string): string | null {
+  deleteUser(id: string): [User] | null {
     const userToDelete = this.userRepository.findById(id);
     if (!userToDelete) {
       return null;

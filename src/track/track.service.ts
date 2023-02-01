@@ -27,7 +27,7 @@ export class TrackService {
     return this.trackRepository.update(id, body);
   }
 
-  deleteTrack(id: string): string | null {
+  deleteTrack(id: string): [Track] | null {
     const trackToDelete = this.trackRepository.findById(id);
     if (!trackToDelete) {
       return null;

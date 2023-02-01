@@ -26,11 +26,11 @@ export class AlbumService {
     return this.albumResitory.update(id, body);
   }
 
-  deleteAlbum(id: string): string | null {
+  deleteAlbum(id: string): [Album] | null {
     const albumToDelete = this.albumResitory.findById(id);
     if (!albumToDelete) {
       return null;
     }
-    this.albumResitory.delete(id);
+    return this.albumResitory.delete(id);
   }
 }

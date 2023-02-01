@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   ParseUUIDPipe,
@@ -33,7 +34,13 @@ export class ArtistController {
 
   @Post()
   createArtist(@Body() body: CreateArtistDto): Artist {
-    return this.artistService.createArtist(body);
+    const artist = this.artistService.createArtist(body);
+    console.log(
+      '🚀 ~ file: artist.controller.ts:38 ~ ArtistController ~ createArtist ~ artist',
+      artist,
+    );
+
+    return artist;
   }
 
   @Put(':id')
@@ -49,6 +56,7 @@ export class ArtistController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   deleteArtist(@Param('id', ParseUUIDPipe) id: string): void {
     const artist = this.artistService.deleteArtist(id);
     if (!artist) {

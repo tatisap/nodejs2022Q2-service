@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   ParseUUIDPipe,
@@ -49,6 +50,7 @@ export class AlbumController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   deleteAlbum(@Param('id', ParseUUIDPipe) id: string): void {
     const album = this.albumService.deleteAlbum(id);
     if (!album) {

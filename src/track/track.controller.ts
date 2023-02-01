@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   ParseUUIDPipe,
@@ -49,6 +50,7 @@ export class TrackController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   deleteTrack(@Param('id', ParseUUIDPipe) id: string): void {
     const track = this.trackService.deleteTrack(id);
     if (!track) {

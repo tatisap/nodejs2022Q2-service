@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   ParseUUIDPipe,
@@ -49,6 +50,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   deleteUser(@Param('id', ParseUUIDPipe) id: string): void {
     const user = this.userService.deleteUser(id);
     if (!user) {

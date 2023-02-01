@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsInt, IsString, IsUUID } from 'class-validator';
+import { IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateAlbumDto {
   @IsString()
@@ -8,6 +8,7 @@ export class CreateAlbumDto {
   @IsInt()
   year: number;
 
+  @IsOptional()
   @IsUUID()
   artistId: string | null; // refers to Artist
 }

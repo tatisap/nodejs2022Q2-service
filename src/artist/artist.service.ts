@@ -26,7 +26,7 @@ export class ArtistService {
     return this.artistRepository.update(id, body);
   }
 
-  deleteArtist(id: string): string | null {
+  deleteArtist(id: string): [Artist] | null {
     const artistToDelete = this.artistRepository.findById(id);
     if (!artistToDelete) {
       return null;
