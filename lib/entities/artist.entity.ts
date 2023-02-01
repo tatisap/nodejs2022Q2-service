@@ -1,9 +1,7 @@
 import { Expose } from 'class-transformer';
+import { BaseEntity } from './base.entity';
 
-export class Artist {
-  @Expose()
-  id: string; // uuid v4
-
+export class Artist extends BaseEntity {
   @Expose()
   name: string;
 
