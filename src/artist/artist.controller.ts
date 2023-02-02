@@ -35,11 +35,6 @@ export class ArtistController {
   @Post()
   createArtist(@Body() body: CreateArtistDto): Artist {
     const artist = this.artistService.createArtist(body);
-    console.log(
-      '🚀 ~ file: artist.controller.ts:38 ~ ArtistController ~ createArtist ~ artist',
-      artist,
-    );
-
     return artist;
   }
 
