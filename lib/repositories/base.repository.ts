@@ -1,12 +1,20 @@
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { v4 as uuid } from 'uuid';
 import { BaseEntity } from 'lib/entities';
+import { Property } from 'lib/types';
 
 export class Repository<T extends BaseEntity> {
   protected db: T[];
   protected entity: ClassConstructor<T>;
 
-  findMany(): T[] {
+  findMany(property?: Property<T>): T[] {
+    if (property) {
+      const { key, value } = property;
+      if (Array.isArray(value)) {
+        return this.db.filter((item) => value.includes(item[key]));
+      }
+      return this.db.filter((item) => item[key] === value);
+    }
     return this.db;
   }
 
