@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Track } from 'lib/entities';
-import { CreateTrackDto, UpdateTrackDto } from './track.dto';
+import { Property } from 'lib/types';
+import { CreateTrackDto } from './track.dto';
 import { TrackRepository } from './track.repository';
 
 @Injectable()
 export class TrackService {
   constructor(private readonly trackRepository: TrackRepository) {}
 
-  getAllTracks(): Track[] {
-    return this.trackRepository.findMany();
+  getAllTracks(property?: Property<Track>): Track[] {
+    return this.trackRepository.findMany(property);
   }
 
   getTrack(id: string): Track | null {
@@ -16,10 +17,10 @@ export class TrackService {
   }
 
   createTrack(body: CreateTrackDto): Track {
-    return this.trackRepository.create(body);
+    return this.trackRepository.create({ ...body, isFavorite: false });
   }
 
-  updateTrack(id: string, body: UpdateTrackDto): Track | null {
+  updateTrack(id: string, body: Partial<Track>): Track | null {
     const trackToUpdate = this.trackRepository.findById(id);
     if (!trackToUpdate) {
       return null;
@@ -27,11 +28,12 @@ export class TrackService {
     return this.trackRepository.update(id, body);
   }
 
-  deleteTrack(id: string): [Track] | null {
+  deleteTrack(id: string): Track | null {
     const trackToDelete = this.trackRepository.findById(id);
     if (!trackToDelete) {
       return null;
     }
-    return this.trackRepository.delete(id);
+    const [deletedTrack] = this.trackRepository.delete(id);
+    return deletedTrack;
   }
 }

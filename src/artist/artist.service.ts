@@ -1,13 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { Artist } from 'lib/entities';
-import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
+import { Property } from 'lib/types';
+import { AlbumService } from 'src/album/album.service';
+import { TrackService } from 'src/track/track.service';
+import { CreateArtistDto } from './artist.dto';
 import { ArtistRepository } from './artist.repository';
 
 @Injectable()
 export class ArtistService {
-  constructor(private readonly artistRepository: ArtistRepository) {}
-  getAllArtists(): Artist[] {
-    return this.artistRepository.findMany();
+  constructor(
+    private readonly artistRepository: ArtistRepository,
+    private readonly trackService: TrackService,
+    private readonly albumService: AlbumService,
+  ) {}
+  getAllArtists(property?: Property<Artist>): Artist[] {
+    return this.artistRepository.findMany(property);
   }
 
   getArtist(id: string): Artist | null {
@@ -15,10 +22,10 @@ export class ArtistService {
   }
 
   createArtist(body: CreateArtistDto): Artist {
-    return this.artistRepository.create(body);
+    return this.artistRepository.create({ ...body, isFavorite: false });
   }
 
-  updateArtist(id: string, body: UpdateArtistDto): Artist | null {
+  updateArtist(id: string, body: Partial<Artist>): Artist | null {
     const artistToUpdate = this.artistRepository.findById(id);
     if (!artistToUpdate) {
       return null;
@@ -26,11 +33,29 @@ export class ArtistService {
     return this.artistRepository.update(id, body);
   }
 
-  deleteArtist(id: string): [Artist] | null {
+  deleteArtist(id: string): Artist | null {
     const artistToDelete = this.artistRepository.findById(id);
     if (!artistToDelete) {
       return null;
     }
-    return this.artistRepository.delete(id);
+    const [deletedArtist] = this.artistRepository.delete(id);
+
+    const tracks = this.trackService.getAllTracks({
+      key: 'artistId',
+      value: deletedArtist.id,
+    });
+    tracks.forEach((track) =>
+      this.trackService.updateTrack(track.id, { artistId: null }),
+    );
+
+    const albums = this.albumService.getAllAlbums({
+      key: 'artistId',
+      value: deletedArtist.id,
+    });
+    albums.forEach((album) =>
+      this.albumService.updateAlbum(album.id, { artistId: null }),
+    );
+
+    return deletedArtist;
   }
 }

@@ -1,18 +1,19 @@
 import * as bcrypt from 'bcrypt';
 import {
+  ForbiddenException,
   Injectable,
-  UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { User } from 'lib/entities';
 import { CreateUserDto, UpdatePasswordDto } from './user.dto';
 import { UserRepository } from './user.repository';
+import { Property } from 'lib/types';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
-  getAllUsers(): User[] {
-    return this.userRepository.findMany();
+  getAllUsers(property?: Property<User>): User[] {
+    return this.userRepository.findMany(property);
   }
 
   getUser(id: string): User | null {
@@ -50,7 +51,7 @@ export class UserService {
     );
 
     if (!isPasswordCorrect) {
-      throw new UnauthorizedException('Password is incorrect');
+      throw new ForbiddenException('Password is incorrect');
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
