@@ -13,4 +13,6 @@ export class Track extends BaseEntity {
 
   @Expose()
   duration: number; // integer number
+
+  isFavorite: boolean;
 }

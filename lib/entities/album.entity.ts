@@ -10,4 +10,6 @@ export class Album extends BaseEntity {
 
   @Expose()
   artistId: string | null; // refers to Artist
+
+  isFavorite: boolean;
 }

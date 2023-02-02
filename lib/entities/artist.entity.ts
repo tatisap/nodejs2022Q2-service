@@ -7,4 +7,6 @@ export class Artist extends BaseEntity {
 
   @Expose()
   grammy: boolean;
+
+  isFavorite: boolean;
 }
