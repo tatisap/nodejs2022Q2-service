@@ -3,7 +3,7 @@ import { Album } from 'lib/entities';
 import { Property } from 'lib/types';
 import { TrackService } from 'src/track/track.service';
 import { CreateAlbumDto } from './album.dto';
-import { AlbumRepository } from './album.repository';
+import { AlbumRepository } from '../../lib/repositories';
 
 @Injectable()
 export class AlbumService {

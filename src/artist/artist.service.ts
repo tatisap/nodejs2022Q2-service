@@ -4,7 +4,7 @@ import { Property } from 'lib/types';
 import { AlbumService } from 'src/album/album.service';
 import { TrackService } from 'src/track/track.service';
 import { CreateArtistDto } from './artist.dto';
-import { ArtistRepository } from './artist.repository';
+import { ArtistRepository } from '../../lib/repositories';
 
 @Injectable()
 export class ArtistService {
