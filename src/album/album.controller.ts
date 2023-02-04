@@ -27,7 +27,7 @@ export class AlbumController {
   getAlbum(@Param('id', ParseUUIDPipe) id: string): Album {
     const album = this.albumService.getAlbum(id);
     if (!album) {
-      throw new NotFoundException('Track not found');
+      throw new NotFoundException('Album not found');
     }
     return album;
   }
@@ -44,7 +44,7 @@ export class AlbumController {
   ): Album {
     const album = this.albumService.updateAlbum(id, body);
     if (!album) {
-      throw new NotFoundException('Track not found');
+      throw new NotFoundException('Album not found');
     }
     return album;
   }
@@ -54,7 +54,7 @@ export class AlbumController {
   deleteAlbum(@Param('id', ParseUUIDPipe) id: string): void {
     const album = this.albumService.deleteAlbum(id);
     if (!album) {
-      throw new NotFoundException('Track not found');
+      throw new NotFoundException('Album not found');
     }
   }
 }

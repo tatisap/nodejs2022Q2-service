@@ -1,5 +1,5 @@
-import { PartialType } from '@nestjs/mapped-types';
 import { IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsArtistExist } from 'lib/decorators';
 
 export class CreateAlbumDto {
   @IsString()
@@ -10,7 +10,10 @@ export class CreateAlbumDto {
 
   @IsOptional()
   @IsUUID()
-  artistId: string | null; // refers to Artist
+  @IsArtistExist({
+    message: "artist doesn't exist",
+  })
+  artistId: string | null = null; // refers to Artist
 }
 
-export class UpdateAlbumDto extends PartialType(CreateAlbumDto) {}
+export class UpdateAlbumDto extends CreateAlbumDto {}

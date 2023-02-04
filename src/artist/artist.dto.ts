@@ -1,4 +1,3 @@
-import { PartialType } from '@nestjs/mapped-types';
 import { IsBoolean, IsString } from 'class-validator';
 
 export class CreateArtistDto {
@@ -9,4 +8,4 @@ export class CreateArtistDto {
   grammy: boolean;
 }
 
-export class UpdateArtistDto extends PartialType(CreateArtistDto) {}
+export class UpdateArtistDto extends CreateArtistDto {}

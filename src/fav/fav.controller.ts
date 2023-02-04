@@ -12,7 +12,7 @@ import {
 import { AlbumService } from 'src/album/album.service';
 import { ArtistService } from 'src/artist/artist.service';
 import { TrackService } from 'src/track/track.service';
-import { GetAllFavoritesResponseDTO } from './fav.dto';
+import { AddToFavoritesDTO, GetAllFavoritesResponseDTO } from './fav.dto';
 
 @Controller('favs')
 export class FavController {
@@ -41,14 +41,14 @@ export class FavController {
   }
 
   @Post('track/:id')
-  addTrack(@Param('id', ParseUUIDPipe) id: string) {
+  addTrack(@Param('id', ParseUUIDPipe) id: string): AddToFavoritesDTO {
     const favoriteTrack = this.trackService.updateTrack(id, {
       isFavorite: true,
     });
     if (!favoriteTrack) {
       throw new UnprocessableEntityException('Track not found');
     }
-    return 'Created';
+    return { message: `Track (${id}) has been added to favorites` };
   }
 
   @Delete('track/:id')
@@ -71,7 +71,7 @@ export class FavController {
     if (!favoriteAlbum) {
       throw new UnprocessableEntityException('Album not found');
     }
-    return 'Created';
+    return { message: `Album (${id}) has been added to favorites` };
   }
 
   @Delete('album/:id')
@@ -94,7 +94,7 @@ export class FavController {
     if (!favoriteArtist) {
       throw new UnprocessableEntityException('Artist not found');
     }
-    return 'Created';
+    return { message: `Artist (${id}) has been added to favorites` };
   }
 
   @Delete('artist/:id')

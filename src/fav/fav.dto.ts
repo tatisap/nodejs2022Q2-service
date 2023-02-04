@@ -11,3 +11,8 @@ export class GetAllFavoritesResponseDTO {
   @Expose()
   tracks: Track[];
 }
+
+export class AddToFavoritesDTO {
+  @Expose()
+  message: string;
+}

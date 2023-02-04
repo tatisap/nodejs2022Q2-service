@@ -27,7 +27,7 @@ export class ArtistController {
   getArtist(@Param('id', ParseUUIDPipe) id: string): Artist {
     const artist = this.artistService.getArtist(id);
     if (!artist) {
-      throw new NotFoundException('Track not found');
+      throw new NotFoundException('Artist not found');
     }
     return artist;
   }
@@ -45,7 +45,7 @@ export class ArtistController {
   ): Artist {
     const artist = this.artistService.updateArtist(id, body);
     if (!artist) {
-      throw new NotFoundException('Track not found');
+      throw new NotFoundException('Artist not found');
     }
     return artist;
   }
@@ -55,7 +55,7 @@ export class ArtistController {
   deleteArtist(@Param('id', ParseUUIDPipe) id: string): void {
     const artist = this.artistService.deleteArtist(id);
     if (!artist) {
-      throw new NotFoundException('Track not found');
+      throw new NotFoundException('Artist not found');
     }
   }
 }
