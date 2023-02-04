@@ -1,4 +1,5 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 
@@ -17,6 +18,7 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(4000);
+  const configService = app.get(ConfigService);
+  await app.listen(configService.get('APP_PORT'));
 }
 bootstrap();
