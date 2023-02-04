@@ -1,5 +1,5 @@
-import { PartialType } from '@nestjs/mapped-types';
 import { IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsAlbumExist, IsArtistExist } from 'lib/decorators';
 
 export class CreateTrackDto {
   @IsString()
@@ -7,14 +7,20 @@ export class CreateTrackDto {
 
   @IsOptional()
   @IsUUID(4)
-  artistId: string | null; // refers to Artist
+  @IsArtistExist({
+    message: "artist doen't exist",
+  })
+  artistId: string | null = null; // refers to Artist
 
   @IsOptional()
-  @IsUUID()
-  albumId: string | null; // refers to Album
+  @IsUUID(4)
+  @IsAlbumExist({
+    message: "album doen't exist",
+  })
+  albumId: string | null = null; // refers to Album
 
   @IsInt()
   duration: number; // integer number
 }
 
-export class UpdateTrackDto extends PartialType(CreateTrackDto) {}
+export class UpdateTrackDto extends CreateTrackDto {}
