@@ -7,8 +7,14 @@
 
 ## Downloading
 
+Clone this repo and checkout to dev branch:
+
 ```
 git clone {repository URL}
+```
+
+```
+git checkout dev
 ```
 
 ## Installing NPM modules
@@ -17,56 +23,33 @@ git clone {repository URL}
 npm install
 ```
 
+## Creating .env file
+
+Add .env file to root and specify into it APP_PORT variable (4000, for example). Overwise the app will be crashed with following error:
+
+```Error: Config validation error: "APP_PORT" is required```
+
 ## Running application
 
 ```
 npm start
 ```
 
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
+After starting the app on port you can open in your browser OpenAPI documentation by typing http://localhost:{port you specified}/api.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
+
+Or you can use api.yaml file from doc folder in root for importing to Postman
 
 ## Testing
 
 After application running open new terminal and enter:
 
-To run all tests without authorization
-
 ```
 npm run test
 ```
 
-To run only one of all test suites
-
-```
-npm run test -- <path to suite>
-```
-
-To run all test with authorization
-
-```
-npm run test:auth
-```
-
-To run only specific test suite with authorization
-
-```
-npm run test:auth -- <path to suite>
-```
-
-### Auto-fix and format
+### Check eslint
 
 ```
 npm run lint
 ```
-
-```
-npm run format
-```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
