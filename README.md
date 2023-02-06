@@ -7,10 +7,14 @@
 
 ## Downloading
 
-Clone this repo:
+Clone this repo and checkout to dev branch:
 
 ```
 git clone {repository URL}
+```
+
+```
+git checkout dev
 ```
 
 ## Installing NPM modules
