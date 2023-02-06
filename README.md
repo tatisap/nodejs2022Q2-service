@@ -19,13 +19,19 @@ git clone {repository URL}
 npm install
 ```
 
+## Creating .env file
+
+Add .env file to root and specify into it APP_PORT variable (4000, for example). Overwise the app will be crashed with following error:
+
+```Error: Config validation error: "APP_PORT" is required```
+
 ## Running application
 
 ```
 npm start
 ```
 
-After starting the app on port (4000 as default) you can open in your browser OpenAPI documentation by typing http://localhost:4000/api.
+After starting the app on port you can open in your browser OpenAPI documentation by typing http://localhost:{port you specified}/api.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 Or you can use api.yaml file from doc folder in root for importing to Postman
