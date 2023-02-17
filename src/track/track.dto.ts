@@ -1,26 +1,38 @@
+import { Expose } from 'class-transformer';
 import { IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
-import { IsAlbumExist, IsArtistExist } from 'lib/decorators';
+import { BaseDTO } from 'src/utilities/base-dto';
 
 export class CreateTrackDto {
   @IsString()
   name: string;
 
+  @IsInt()
+  duration: number; // integer number
+
   @IsOptional()
   @IsUUID(4)
-  @IsArtistExist({
-    message: "artist doen't exist",
-  })
   artistId: string | null = null; // refers to Artist
 
   @IsOptional()
   @IsUUID(4)
-  @IsAlbumExist({
-    message: "album doen't exist",
-  })
   albumId: string | null = null; // refers to Album
-
-  @IsInt()
-  duration: number; // integer number
 }
 
 export class UpdateTrackDto extends CreateTrackDto {}
+
+export class PublicTrackDTO extends BaseDTO<PublicTrackDTO> {
+  @Expose()
+  id: string;
+
+  @Expose()
+  name: string;
+
+  @Expose()
+  duration: number;
+
+  @Expose()
+  artistId: string | null;
+
+  @Expose()
+  albumId: string | null;
+}
