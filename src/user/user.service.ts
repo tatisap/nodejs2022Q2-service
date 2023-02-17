@@ -4,44 +4,43 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { User } from 'lib/entities';
-import { CreateUserDto, UpdatePasswordDto } from './user.dto';
-import { UserRepository } from '../../lib/repositories';
-import { Property } from 'lib/types';
+import { User } from '../lib/entities';
+import { CreateUserDTO, UpdatePasswordDTO } from './user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
-  getAllUsers(property?: Property<User>): User[] {
-    return this.userRepository.findMany(property);
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+  ) {}
+  getAllUsers(): Promise<User[]> {
+    return this.userRepository.find();
   }
 
-  getUser(id: string): User | null {
-    return this.userRepository.findById(id);
+  getUser(id: string): Promise<User | null> {
+    return this.userRepository.findOneBy({ id });
   }
 
-  async createUser({ login, password }: CreateUserDto): Promise<User> {
-    const conflict = this.userRepository.findByLogin(login);
+  async createUser({ login, password }: CreateUserDTO): Promise<User> {
+    const conflict = await this.userRepository.findOneBy({ login });
     if (conflict) {
       throw new UnprocessableEntityException('Login already taken');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const today = Date.now();
-    return this.userRepository.create({
+    const user = this.userRepository.create({
       login,
       password: hashedPassword,
-      version: 1,
-      createdAt: today,
-      updatedAt: today,
     });
+    return this.userRepository.save(user);
   }
 
   async updatePassword(
     id: string,
-    { oldPassword, newPassword }: UpdatePasswordDto,
+    { oldPassword, newPassword }: UpdatePasswordDTO,
   ): Promise<User | null> {
-    const userToUpdate = this.userRepository.findById(id);
+    const userToUpdate = await this.userRepository.findOneBy({ id });
     if (!userToUpdate) {
       return null;
     }
@@ -55,15 +54,12 @@ export class UserService {
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    return this.userRepository.update(id, {
-      password: hashedPassword,
-      version: userToUpdate.version + 1,
-      updatedAt: Date.now(),
-    });
+    await this.userRepository.update({ id }, { password: hashedPassword });
+    return this.userRepository.findOneBy({ id });
   }
 
-  deleteUser(id: string): [User] | null {
-    const userToDelete = this.userRepository.findById(id);
+  async deleteUser(id: string): Promise<DeleteResult | null> {
+    const userToDelete = await this.userRepository.findOneBy({ id });
     if (!userToDelete) {
       return null;
     }
