@@ -10,8 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Track } from 'lib/entities';
-import { CreateTrackDto, UpdateTrackDto } from './track.dto';
+import { CreateTrackDto, PublicTrackDTO, UpdateTrackDto } from './track.dto';
 import { TrackService } from './track.service';
 
 @Controller('track')
@@ -19,41 +18,53 @@ export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
   @Get()
-  getAllTracks(): Track[] {
-    return this.trackService.getAllTracks();
+  async getAllTracks(): Promise<PublicTrackDTO[]> {
+    const tracks = await this.trackService.getAllTracks();
+    return tracks.map((track) => new PublicTrackDTO(track));
   }
 
   @Get(':id')
-  getTrack(@Param('id', ParseUUIDPipe) id: string): Track {
-    const track = this.trackService.getTrack(id);
+  async getTrack(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<PublicTrackDTO> {
+    const track = await this.trackService.getTrack(id);
+    console.log(
+      '🚀 ~ file: track.controller.ts:31 ~ TrackController ~ track ',
+      track,
+    );
     if (!track) {
       throw new NotFoundException('Track not found');
     }
-    return track;
+    return new PublicTrackDTO(track);
   }
 
   @Post()
-  createTrack(@Body() body: CreateTrackDto): Track {
-    return this.trackService.createTrack(body);
+  async createTrack(@Body() body: CreateTrackDto): Promise<PublicTrackDTO> {
+    const track = await this.trackService.createTrack(body);
+    console.log(
+      '🚀 ~ file: track.controller.ts:40 ~ TrackController ~ createTrack ~ track',
+      track,
+    );
+    return new PublicTrackDTO(track);
   }
 
   @Put(':id')
-  updateTrack(
+  async updateTrack(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() body: UpdateTrackDto,
-  ): Track {
-    const track = this.trackService.updateTrack(id, body);
+  ): Promise<PublicTrackDTO> {
+    const track = await this.trackService.updateTrack(id, body);
     if (!track) {
       throw new NotFoundException('Track not found');
     }
-    return track;
+    return new PublicTrackDTO(track);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  deleteTrack(@Param('id', ParseUUIDPipe) id: string): void {
-    const track = this.trackService.deleteTrack(id);
-    if (!track) {
+  async deleteTrack(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    const deleteResult = await this.trackService.deleteTrack(id);
+    if (!deleteResult) {
       throw new NotFoundException('Track not found');
     }
   }
