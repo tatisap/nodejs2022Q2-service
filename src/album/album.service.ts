@@ -1,51 +1,50 @@
-import { Injectable } from '@nestjs/common';
-import { Album } from 'lib/entities';
-import { Property } from 'lib/types';
-import { TrackService } from 'src/track/track.service';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { Album, Artist } from '../lib/entities';
 import { CreateAlbumDto } from './album.dto';
-import { AlbumRepository } from '../../lib/repositories';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class AlbumService {
   constructor(
-    private readonly albumResitory: AlbumRepository,
-    private readonly trackService: TrackService,
+    @InjectRepository(Album) private readonly albumResitory: Repository<Album>,
+    @InjectRepository(Artist)
+    private readonly artistRepository: Repository<Artist>,
   ) {}
-  getAllAlbums(property?: Property<Album>): Album[] {
-    return this.albumResitory.findMany(property);
+  getAllAlbums(where?: FindOptionsWhere<Album>): Promise<Album[]> {
+    return this.albumResitory.find({ where });
   }
 
-  getAlbum(id: string): Album | null {
-    return this.albumResitory.findById(id);
+  getAlbum(id: string): Promise<Album | null> {
+    return this.albumResitory.findOneBy({ id });
   }
 
-  createAlbum(body: CreateAlbumDto): Album {
-    return this.albumResitory.create({ ...body, isFavorite: false });
+  async createAlbum(body: CreateAlbumDto): Promise<Album> {
+    const { artistId } = body;
+    if (artistId) {
+      const artist = await this.artistRepository.findOneBy({ id: artistId });
+      if (!artist) {
+        throw new BadRequestException(`Artist with id ${artistId} not found`);
+      }
+    }
+    const album = this.albumResitory.create(body);
+    return this.albumResitory.save(album);
   }
 
-  updateAlbum(id: string, body: Partial<Album>): Album | null {
-    const albumToUpdate = this.albumResitory.findById(id);
+  async updateAlbum(id: string, body: Partial<Album>): Promise<Album | null> {
+    const albumToUpdate = await this.albumResitory.findOneBy({ id });
     if (!albumToUpdate) {
       return null;
     }
-    return this.albumResitory.update(id, body);
+    await this.albumResitory.update({ id }, body);
+    return this.albumResitory.findOneBy({ id });
   }
 
-  deleteAlbum(id: string): Album | null {
-    const albumToDelete = this.albumResitory.findById(id);
+  async deleteAlbum(id: string): Promise<DeleteResult | null> {
+    const albumToDelete = await this.albumResitory.findOneBy({ id });
     if (!albumToDelete) {
       return null;
     }
-    const [deletedAlbum] = this.albumResitory.delete(id);
-    const tracks = this.trackService.getAllTracks({
-      key: 'albumId',
-      value: deletedAlbum.id,
-    });
-
-    tracks.forEach((track) =>
-      this.trackService.updateTrack(track.id, { albumId: null }),
-    );
-
-    return deletedAlbum;
+    return this.albumResitory.delete({ id });
   }
 }
