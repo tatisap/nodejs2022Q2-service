@@ -1,15 +1,18 @@
 import { Expose } from 'class-transformer';
-import { Album, Artist, Track } from 'lib/entities';
+import { PublicAlbumDTO } from 'src/album/album.dto';
+import { PublicArtistDTO } from 'src/artist/artist.dto';
+import { PublicTrackDTO } from 'src/track/track.dto';
+import { BaseDTO } from 'src/utilities/base-dto';
 
-export class GetAllFavoritesResponseDTO {
+export class GetAllFavoritesResponseDTO extends BaseDTO<GetAllFavoritesResponseDTO> {
   @Expose()
-  artists: Artist[];
+  artists: PublicArtistDTO[];
 
   @Expose()
-  albums: Album[];
+  albums: PublicAlbumDTO[];
 
   @Expose()
-  tracks: Track[];
+  tracks: PublicTrackDTO[];
 }
 
 export class AddToFavoritesDTO {
