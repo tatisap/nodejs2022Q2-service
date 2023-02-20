@@ -56,6 +56,9 @@ docker exec -it {container id} /bin/sh
 
 ## Vulnerabilities scanning
 
+NB! For vulnerabilities scanning I made my Docker Hub image public: link https://hub.docker.com/r/tatisap/home-library-service
+You can ensure that it was private on screenshot in PR description (Home Library Service: Part 2 - Docker)
+
 ```
 npm run docker:scan
 ```
