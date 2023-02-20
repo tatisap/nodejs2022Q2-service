@@ -7,15 +7,15 @@ export class CreateTrackDto {
   name: string;
 
   @IsInt()
-  duration: number; // integer number
+  duration: number;
 
   @IsOptional()
   @IsUUID(4)
-  artistId: string | null = null; // refers to Artist
+  artistId: string | null = null;
 
   @IsOptional()
   @IsUUID(4)
-  albumId: string | null = null; // refers to Album
+  albumId: string | null = null;
 }
 
 export class UpdateTrackDto extends CreateTrackDto {}
