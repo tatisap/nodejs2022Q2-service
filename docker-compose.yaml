@@ -4,10 +4,10 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
-      # target: development
-    # command: npm run start:dev
     environment:
       - POSTGRES_HOST=postgres
+    volumes:
+      - ./src:/usr/app/src
     ports:
       - ${APP_PORT}:${APP_PORT}
     networks:
@@ -26,13 +26,14 @@ services:
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
-      - app-postgres-data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+      - pglogs:/var/log/postgresql
     networks:
       - home-library-service-network
     restart: always
-
 volumes:
-  app-postgres-data:
+  pgdata:
+  pglogs:
 networks:
   home-library-service-network:
     driver: bridge
