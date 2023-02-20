@@ -11,7 +11,7 @@ export class CreateAlbumDto {
 
   @IsOptional()
   @IsUUID()
-  artistId: string | null = null; // refers to Artist
+  artistId: string | null = null;
 }
 
 export class UpdateAlbumDto extends CreateAlbumDto {}

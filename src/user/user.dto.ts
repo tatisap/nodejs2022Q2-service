@@ -12,10 +12,10 @@ export class CreateUserDTO {
 
 export class UpdatePasswordDTO {
   @IsString()
-  oldPassword: string; // previous password
+  oldPassword: string;
 
   @IsString()
-  newPassword: string; // new password
+  newPassword: string;
 }
 
 export class PublicUserDTO extends BaseDTO<PublicUserDTO> {
