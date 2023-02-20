@@ -1,0 +1,39 @@
+version: '1.0.0'
+services:
+  api: 
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+    volumes:
+      - ./src:/usr/app/src
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    networks:
+      - home-library-service-network
+    depends_on:
+      - postgres
+    restart: always
+  postgres:
+    build:
+      dockerfile: db.Dockerfile
+      context: .
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - pglogs:/var/log/postgresql
+    networks:
+      - home-library-service-network
+    restart: always
+volumes:
+  pgdata:
+  pglogs:
+networks:
+  home-library-service-network:
+    driver: bridge

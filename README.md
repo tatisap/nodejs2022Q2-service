@@ -4,6 +4,7 @@
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Docker - [Download & Install Docker](https://www.docker.com).
 
 ## Downloading
 
@@ -14,31 +15,53 @@ git clone {repository URL}
 ```
 
 ```
-git checkout dev
-```
-
-## Installing NPM modules
-
-```
-npm install
+git checkout dev-docker
 ```
 
 ## Creating .env file
 
-Add .env file to root and specify into it APP_PORT variable (4000, for example). Overwise the app will be crashed with following error:
+Add .env file with following information (example):
 
-```Error: Config validation error: "APP_PORT" is required```
+```
+APP_PORT=4000
+
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_USERNAME=postgres
+POSTGRES_PASSWORD=root
+POSTGRES_DATABASE=nodejs_course_db
+```
 
 ## Running application
 
 ```
-npm start
+docker compose up
 ```
 
 After starting the app on port you can open in your browser OpenAPI documentation by typing http://localhost:{port you specified}/api.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 Or you can use api.yaml file from doc folder in root for importing to Postman
+
+## Using npm scripts which required dependencies
+
+For starting npm script which required dependency installing you can use one of two ways:
+
+1. Use ```npm intall``` command and after that use script
+2. Open pseudoterminal:
+
+```
+docker exec -it {container id} /bin/sh
+```
+
+## Vulnerabilities scanning
+
+NB! For vulnerabilities scanning I made my Docker Hub image public: link https://hub.docker.com/r/tatisap/home-library-service
+You can ensure that it was private on screenshot in PR description (Home Library Service: Part 2 - Docker)
+
+```
+npm run docker:scan
+```
 
 ## Testing
 
@@ -48,7 +71,7 @@ After application running open new terminal and enter:
 npm run test
 ```
 
-### Check eslint
+## Check eslint
 
 ```
 npm run lint
