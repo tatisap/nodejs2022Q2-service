@@ -43,6 +43,17 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 Or you can use api.yaml file from doc folder in root for importing to Postman
 
+## Using npm scripts which required dependencies
+
+For starting npm script which required dependency installing you can use one of two ways:
+
+1. Use ```npm intall``` command and after that use script
+2. Open pseudoterminal:
+
+```
+docker exec -it {container id} /bin/sh
+```
+
 ## Vulnerabilities scanning
 
 ```
@@ -57,7 +68,7 @@ After application running open new terminal and enter:
 npm run test
 ```
 
-### Check eslint
+## Check eslint
 
 ```
 npm run lint
