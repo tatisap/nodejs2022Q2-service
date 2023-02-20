@@ -14,25 +14,27 @@ git clone {repository URL}
 ```
 
 ```
-git checkout dev
-```
-
-## Installing NPM modules
-
-```
-npm install
+git checkout dev-docker
 ```
 
 ## Creating .env file
 
-Add .env file to root and specify into it APP_PORT variable (4000, for example). Overwise the app will be crashed with following error:
+Add .env file with following information (example):
 
-```Error: Config validation error: "APP_PORT" is required```
+```
+APP_PORT=4000
+
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_USERNAME=postgres
+POSTGRES_PASSWORD=root
+POSTGRES_DATABASE=nodejs_course_db
+```
 
 ## Running application
 
 ```
-npm start
+docker compose up
 ```
 
 After starting the app on port you can open in your browser OpenAPI documentation by typing http://localhost:{port you specified}/api.
