@@ -43,6 +43,12 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 Or you can use api.yaml file from doc folder in root for importing to Postman
 
+## Vulnerabilities scanning
+
+```
+npm run docker:scan
+```
+
 ## Testing
 
 After application running open new terminal and enter:
