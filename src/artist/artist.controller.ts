@@ -10,8 +10,11 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Artist } from 'lib/entities';
-import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
+import {
+  CreateArtistDto,
+  PublicArtistDTO,
+  UpdateArtistDto,
+} from './artist.dto';
 import { ArtistService } from './artist.service';
 
 @Controller('artist')
@@ -19,42 +22,45 @@ export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
   @Get()
-  getAllArtists(): Artist[] {
-    return this.artistService.getAllArtists();
+  async getAllArtists(): Promise<PublicArtistDTO[]> {
+    const artists = await this.artistService.getAllArtists();
+    return artists.map((artist) => new PublicArtistDTO(artist));
   }
 
   @Get(':id')
-  getArtist(@Param('id', ParseUUIDPipe) id: string): Artist {
-    const artist = this.artistService.getArtist(id);
+  async getArtist(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<PublicArtistDTO> {
+    const artist = await this.artistService.getArtist(id);
     if (!artist) {
       throw new NotFoundException('Artist not found');
     }
-    return artist;
+    return new PublicArtistDTO(artist);
   }
 
   @Post()
-  createArtist(@Body() body: CreateArtistDto): Artist {
-    const artist = this.artistService.createArtist(body);
-    return artist;
+  async createArtist(@Body() body: CreateArtistDto): Promise<PublicArtistDTO> {
+    const artist = await this.artistService.createArtist(body);
+    return new PublicArtistDTO(artist);
   }
 
   @Put(':id')
-  updateArtist(
+  async updateArtist(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() body: UpdateArtistDto,
-  ): Artist {
-    const artist = this.artistService.updateArtist(id, body);
+  ): Promise<PublicArtistDTO> {
+    const artist = await this.artistService.updateArtist(id, body);
     if (!artist) {
       throw new NotFoundException('Artist not found');
     }
-    return artist;
+    return new PublicArtistDTO(artist);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  deleteArtist(@Param('id', ParseUUIDPipe) id: string): void {
-    const artist = this.artistService.deleteArtist(id);
-    if (!artist) {
+  async deleteArtist(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    const deleteResult = await this.artistService.deleteArtist(id);
+    if (!deleteResult) {
       throw new NotFoundException('Artist not found');
     }
   }

@@ -1,4 +1,3 @@
-export * from './base.entity';
 export * from './user.entity';
 export * from './artist.entity';
 export * from './track.entity';

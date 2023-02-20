@@ -1,5 +1,6 @@
+import { Expose } from 'class-transformer';
 import { IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
-import { IsArtistExist } from 'lib/decorators';
+import { BaseDTO } from 'src/utilities/base-dto';
 
 export class CreateAlbumDto {
   @IsString()
@@ -10,10 +11,21 @@ export class CreateAlbumDto {
 
   @IsOptional()
   @IsUUID()
-  @IsArtistExist({
-    message: "artist doesn't exist",
-  })
-  artistId: string | null = null; // refers to Artist
+  artistId: string | null = null;
 }
 
 export class UpdateAlbumDto extends CreateAlbumDto {}
+
+export class PublicAlbumDTO extends BaseDTO<PublicAlbumDTO> {
+  @Expose()
+  id: string;
+
+  @Expose()
+  name: string;
+
+  @Expose()
+  year: number;
+
+  @Expose()
+  artistId: string | null;
+}
