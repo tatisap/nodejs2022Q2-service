@@ -10,6 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { Auth } from '../auth';
 import { CreateAlbumDto, PublicAlbumDTO, UpdateAlbumDto } from './album.dto';
 import { AlbumService } from './album.service';
 
@@ -17,12 +18,14 @@ import { AlbumService } from './album.service';
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
+  @Auth()
   @Get()
   async getAllAlbums(): Promise<PublicAlbumDTO[]> {
     const albums = await this.albumService.getAllAlbums();
     return albums.map((album) => new PublicAlbumDTO(album));
   }
 
+  @Auth()
   @Get(':id')
   async getAlbum(
     @Param('id', ParseUUIDPipe) id: string,
@@ -34,12 +37,14 @@ export class AlbumController {
     return new PublicAlbumDTO(album);
   }
 
+  @Auth()
   @Post()
   async createAlbum(@Body() body: CreateAlbumDto): Promise<PublicAlbumDTO> {
     const album = await this.albumService.createAlbum(body);
     return new PublicAlbumDTO(album);
   }
 
+  @Auth()
   @Put(':id')
   async updateAlbum(
     @Param('id', ParseUUIDPipe) id: string,
@@ -52,6 +57,7 @@ export class AlbumController {
     return new PublicAlbumDTO(album);
   }
 
+  @Auth()
   @Delete(':id')
   @HttpCode(204)
   async deleteAlbum(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
