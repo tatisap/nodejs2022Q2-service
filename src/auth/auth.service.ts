@@ -39,6 +39,14 @@ export class AuthService {
     return this.getTokens({ id, login });
   }
 
+  async refreshTokens(userId: string): Promise<TokensDTO> {
+    const user = await this.userService.getUser(userId);
+    if (!user) {
+      throw new ForbiddenException('Access denied');
+    }
+    return this.getTokens({ id: userId, login: user.login });
+  }
+
   async getTokens({ id, login }: AuthUserType): Promise<TokensDTO> {
     const accessToken = await this.jwtService.signAsync(
       { user: { id, login } },

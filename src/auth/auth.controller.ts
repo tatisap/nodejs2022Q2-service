@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { PublicUserDTO } from '../user';
 import { LogInDTO, SignUpDTO, TokensDTO } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -17,6 +17,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @HttpCode(200)
   async logIn(@Body() body: LogInDTO): Promise<TokensDTO> {
     const response = await this.authService.logIn(body);
     return new TokensDTO(response);
@@ -24,8 +25,9 @@ export class AuthController {
 
   @UseGuards(RefreshJwtAuthGuard)
   @Post('refresh')
+  @HttpCode(200)
   async refresh(@AuthUser() payload: AuthUserType): Promise<TokensDTO> {
-    const response = await this.authService.getTokens(payload);
+    const response = await this.authService.refreshTokens(payload.id);
     return new TokensDTO(response);
   }
 }
