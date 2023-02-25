@@ -9,10 +9,10 @@ import {
   Post,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { PublicAlbumDTO } from 'src/album/album.dto';
-import { PublicArtistDTO } from 'src/artist/artist.dto';
-import { Auth } from '../auth';
-import { PublicTrackDTO } from 'src/track/track.dto';
+import { Auth } from '../lib/decorators';
+import { PublicAlbumDTO } from '../album';
+import { PublicArtistDTO } from '../artist';
+import { PublicTrackDTO } from '../track';
 import { AddToFavoritesDTO, GetAllFavoritesResponseDTO } from './fav.dto';
 import { FavService } from './fav.service';
 

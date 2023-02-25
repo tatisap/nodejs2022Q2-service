@@ -1,8 +1,8 @@
 import { Expose } from 'class-transformer';
-import { PublicAlbumDTO } from 'src/album/album.dto';
-import { PublicArtistDTO } from 'src/artist/artist.dto';
-import { PublicTrackDTO } from 'src/track/track.dto';
-import { BaseDTO } from 'src/utilities/base-dto';
+import { PublicAlbumDTO } from '../album';
+import { PublicArtistDTO } from '../artist';
+import { PublicTrackDTO } from '../track';
+import { BaseDTO } from '../utilities';
 
 export class GetAllFavoritesResponseDTO extends BaseDTO<GetAllFavoritesResponseDTO> {
   @Expose()

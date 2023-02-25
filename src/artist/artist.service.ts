@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Artist } from '../lib/entities';
-import { CreateArtistDto } from './artist.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
+import { Artist } from '../lib/entities';
+import { CreateArtistDto } from './artist.dto';
 
 @Injectable()
 export class ArtistService {

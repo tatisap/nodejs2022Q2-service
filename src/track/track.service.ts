@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Album, Artist, Track } from '../lib/entities';
-import { CreateTrackDto } from './track.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
+import { Album, Artist, Track } from '../lib/entities';
+import { CreateTrackDto } from './track.dto';
 
 @Injectable()
 export class TrackService {

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AlbumModule } from 'src/album/album.module';
-import { ArtistModule } from 'src/artist/artist.module';
-import { TrackModule } from 'src/track/track.module';
+import { AlbumModule } from '../album';
+import { ArtistModule } from '../artist';
+import { TrackModule } from '../track';
 import { FavController } from './fav.controller';
 import { FavService } from './fav.service';
 @Module({

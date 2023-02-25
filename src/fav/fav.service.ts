@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { AlbumService } from 'src/album/album.service';
-import { ArtistService } from 'src/artist/artist.service';
-import { TrackService } from 'src/track/track.service';
 import { Album, Artist, Track } from '../lib/entities';
+import { AlbumService } from '../album';
+import { ArtistService } from '../artist';
+import { TrackService } from '../track';
 
 @Injectable()
 export class FavService {

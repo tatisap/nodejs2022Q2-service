@@ -10,7 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Auth } from '../auth';
+import { Auth } from '../lib/decorators';
 import { CreateUserDTO, PublicUserDTO, UpdatePasswordDTO } from './user.dto';
 import { UserService } from './user.service';
 

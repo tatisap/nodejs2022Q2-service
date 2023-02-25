@@ -1,14 +1,14 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import {
   ForbiddenException,
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { User } from '../lib/entities';
-import { CreateUserDTO, UpdatePasswordDTO } from './user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+import { User } from '../lib/entities';
+import { CreateUserDTO, UpdatePasswordDTO } from './user.dto';
 
 @Injectable()
 export class UserService {

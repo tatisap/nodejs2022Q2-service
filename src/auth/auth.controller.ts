@@ -1,9 +1,9 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { PublicUserDTO } from 'src/user/user.dto';
+import { PublicUserDTO } from '../user';
 import { LogInDTO, SignUpDTO, TokensDTO } from './auth.dto';
 import { AuthService } from './auth.service';
 import { AuthUserType } from './auth.type';
-import { AuthUser } from './decorators';
+import { AuthUser } from '../lib/decorators';
 import { RefreshJwtAuthGuard } from './guards';
 
 @Controller('auth')

@@ -1,15 +1,15 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import {
   ForbiddenException,
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { UserService } from '../user';
-import { LogInDTO, SignUpDTO, TokensDTO } from './auth.dto';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { AuthUserType } from './auth.type';
 import { User } from '../lib/entities';
+import { UserService } from '../user';
+import { LogInDTO, SignUpDTO, TokensDTO } from './auth.dto';
+import { AuthUserType } from './auth.type';
 
 @Injectable()
 export class AuthService {

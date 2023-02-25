@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 import { IsString } from 'class-validator';
-import { BaseDTO } from 'src/utilities/base-dto';
+import { BaseDTO } from '../utilities';
 
 export class SignUpDTO {
   @IsString()

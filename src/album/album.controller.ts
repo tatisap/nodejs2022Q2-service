@@ -10,7 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Auth } from '../auth';
+import { Auth } from '../lib/decorators';
 import { CreateAlbumDto, PublicAlbumDTO, UpdateAlbumDto } from './album.dto';
 import { AlbumService } from './album.service';
 
