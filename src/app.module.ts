@@ -5,9 +5,9 @@ import { TrackModule } from './track/track.module';
 import { AlbumModule } from './album/album.module';
 import { FavModule } from './fav/fav.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { appConfig, configSchema } from './config';
-import { dbConfig } from './config/db.config';
+import { appConfig, dbConfig, authConfig, configSchema } from './config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,13 +17,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         configService.get('DATABASE'),
       inject: [ConfigService],
     }),
+    AuthModule,
     UserModule,
     ArtistModule,
     TrackModule,
     AlbumModule,
     FavModule,
     ConfigModule.forRoot({
-      load: [appConfig, dbConfig],
+      load: [appConfig, dbConfig, authConfig],
       validationSchema: configSchema,
     }),
   ],
