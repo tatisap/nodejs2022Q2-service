@@ -26,6 +26,7 @@ export class LoggingService extends ConsoleLogger {
     };
 
     mkdirSync(this.logFolderPath, { recursive: true });
+    this.addListenersToProcessUncaughtedErrors();
   }
 
   log(message: any, ...optionalParams: [...any, string?]): void {
@@ -103,5 +104,18 @@ export class LoggingService extends ConsoleLogger {
       `${Date.now()}.${logFileType === 'error' ? 'error.log' : 'log'}`,
     );
     return this.filePaths[logFileType];
+  }
+
+  addListenersToProcessUncaughtedErrors(): void {
+    process.on('uncaughtException', (err: unknown) => {
+      this.error(JSON.stringify(err), 'UncaughtException');
+    });
+
+    process.on('unhandledRejection', (reason, promise) => {
+      this.error(
+        `${JSON.stringify(promise)}\nReason: ${reason}`,
+        'UnhandledRejection',
+      );
+    });
   }
 }

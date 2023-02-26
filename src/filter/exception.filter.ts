@@ -31,7 +31,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         message: 'Internal server error',
         error: 'Internal server error',
       };
-      this.loggingService.error(exception);
+      this.loggingService.error(JSON.stringify(exception));
     }
     this.loggingService.warn(`\nResponse: ${statusCode}`);
     this.loggingService.verbose(
