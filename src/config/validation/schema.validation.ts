@@ -7,6 +7,8 @@ export const configSchema = Joi.object().keys({
   POSTGRES_USERNAME: Joi.string().required(),
   POSTGRES_PASSWORD: Joi.string().required(),
   POSTGRES_DATABASE: Joi.string().required(),
+  LOG_LEVEL: Joi.number().integer().min(0).max(4).required(),
+  MAX_LOG_FILE_SIZE: Joi.number().integer().min(1).required(),
   JWT_SECRET_KEY: Joi.string().required(),
   JWT_SECRET_REFRESH_KEY: Joi.string().required(),
   TOKEN_EXPIRE_TIME: Joi.string().required(),
