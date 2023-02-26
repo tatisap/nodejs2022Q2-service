@@ -6,10 +6,12 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { LoggingService } from './logging';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
   app.enableCors({ origin: '*' });
+  app.useLogger(app.get(LoggingService));
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(app.get(Reflector), {
       excludeExtraneousValues: true,
