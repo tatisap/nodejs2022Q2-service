@@ -64,7 +64,7 @@ export class LoggingService extends ConsoleLogger {
     if (!this.isLevelEnabled('verbose')) {
       return;
     }
-    super.verbose(message, ...optionalParams, optionalParams);
+    super.verbose(message, ...optionalParams);
     this.writeToLogFile('verbose', message, optionalParams);
   }
 

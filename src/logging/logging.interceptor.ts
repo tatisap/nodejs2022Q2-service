@@ -17,9 +17,8 @@ export class LoggingInterceptor implements NestInterceptor {
       map((data) => {
         const response: Response = context.switchToHttp().getResponse();
         const { statusCode } = response;
-        this.loggingService.log(
-          `\nResponse: ${statusCode}\nData: ${JSON.stringify(data)}`,
-        );
+        this.loggingService.log(`\nResponse: ${statusCode}`);
+        this.loggingService.verbose(`Response data: ${JSON.stringify(data)}\n`);
         return data;
       }),
     );

@@ -33,8 +33,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
       };
       this.loggingService.error(exception);
     }
-    this.loggingService.log(
-      `\nResponse: ${statusCode}\nData:${JSON.stringify(responseBody)}`,
+    this.loggingService.warn(`\nResponse: ${statusCode}`);
+    this.loggingService.verbose(
+      `Response data:${JSON.stringify(responseBody)}\n`,
     );
     httpAdapter.reply(ctx.getResponse(), responseBody, statusCode);
   }
