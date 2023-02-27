@@ -15,7 +15,7 @@ git clone {repository URL}
 ```
 
 ```
-git checkout dev-postgres
+git checkout dev-auth-logging
 ```
 
 ## Creating .env file
@@ -30,6 +30,21 @@ POSTGRES_PORT=5432
 POSTGRES_USERNAME=postgres
 POSTGRES_PASSWORD=root
 POSTGRES_DATABASE=nodejs_course_db
+
+LOG_LEVEL=4
+MAX_LOG_FILE_SIZE=64 #in kB
+
+CRYPT_SALT=10
+JWT_SECRET_KEY=secret123123
+JWT_SECRET_REFRESH_KEY=secret123123
+TOKEN_EXPIRE_TIME=1h
+TOKEN_REFRESH_EXPIRE_TIME=24h
+```
+
+## Installing dependencies
+
+```
+npm install
 ```
 
 ## Running application
@@ -43,32 +58,12 @@ For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 Or you can use api.yaml file from doc folder in root for importing to Postman
 
-## Using npm scripts which required dependencies
-
-For starting npm script which required dependency installing you can use one of two ways:
-
-1. Use ```npm intall``` command and after that use script
-2. Open pseudoterminal:
-
-```
-docker exec -it {container id} /bin/sh
-```
-
-## Vulnerabilities scanning
-
-NB! For vulnerabilities scanning I made my Docker Hub image public: link https://hub.docker.com/r/tatisap/home-library-service
-You can ensure that it was private on screenshot in PR description (Home Library Service: Part 2 - Docker)
-
-```
-npm run docker:scan
-```
-
 ## Testing
 
 After application running open new terminal and enter:
 
 ```
-npm run test
+npm run test:auth
 ```
 
 ## Check eslint
@@ -76,3 +71,29 @@ npm run test
 ```
 npm run lint
 ```
+
+## Useful information
+
+### Nest.js log levels
+
+- 0 - error (for uncaughted exeptions and non-Http exeptions);
+- 1 - warn (for Http exeptions);
+- 2 - log;
+- 3 - verbose;
+- 4 - debug.
+
+If you set log level as 2 in .env file, there are error, warn and log in log files.
+
+### Error immitation
+
+For error immitation you can place ```throw new Error('Oops');``` in any controller method and call it.
+
+For immitation uncaughtException you can place following code to the end of the ./src/main.ts file:
+
+```
+setTimeout(() => {
+  throw new Error('Oops');
+}, 5000);
+```
+
+For immitation unhandledRejection you can place ```throw new Error('Oops');``` to the end of the bootstrap function in ./src/main.ts file.
