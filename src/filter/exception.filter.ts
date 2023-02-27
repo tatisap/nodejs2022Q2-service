@@ -31,11 +31,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
         message: 'Internal server error',
         error: 'Internal server error',
       };
-      this.loggingService.error(JSON.stringify(exception));
+      this.loggingService.error(exception, 'Exception filter');
     }
-    this.loggingService.warn(`\nResponse: ${statusCode}`);
+    this.loggingService.warn(`\nResponse: ${statusCode}`, 'Exception filter');
     this.loggingService.verbose(
       `Response data:${JSON.stringify(responseBody)}\n`,
+      'Exception filter',
     );
     httpAdapter.reply(ctx.getResponse(), responseBody, statusCode);
   }

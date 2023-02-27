@@ -108,14 +108,11 @@ export class LoggingService extends ConsoleLogger {
 
   addListenersToProcessUncaughtedErrors(): void {
     process.on('uncaughtException', (err: unknown) => {
-      this.error(JSON.stringify(err), 'UncaughtException');
+      this.error(err, 'UncaughtException');
     });
 
-    process.on('unhandledRejection', (reason, promise) => {
-      this.error(
-        `${JSON.stringify(promise)}\nReason: ${reason}`,
-        'UnhandledRejection',
-      );
+    process.on('unhandledRejection', (reason) => {
+      this.error(`Reason: ${reason}`, 'UnhandledRejection');
     });
   }
 }

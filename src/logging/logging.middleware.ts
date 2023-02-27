@@ -12,6 +12,7 @@ export class LoggingMiddleware implements NestMiddleware {
       `\nRequest: ${method} ${url}\n${
         query ? convertObjectToString('Query:\n', query) : ''
       }${body ? convertObjectToString('Body:\n', body) : ''}`,
+      'LoggingMiddleware',
     );
     next();
   }
