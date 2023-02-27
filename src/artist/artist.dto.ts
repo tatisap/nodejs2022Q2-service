@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 import { IsBoolean, IsString } from 'class-validator';
-import { BaseDTO } from 'src/utilities/base-dto';
+import { BaseDTO } from '../utilities';
 
 export class CreateArtistDto {
   @IsString()

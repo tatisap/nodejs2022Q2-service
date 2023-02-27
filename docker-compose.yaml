@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_HOST=${POSTGRES_HOST}
     volumes:
-      - ./src:/usr/app/src
+      - .:/usr/app
     ports:
       - ${APP_PORT}:${APP_PORT}
     networks:

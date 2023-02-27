@@ -10,6 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { Auth } from '../lib/decorators';
 import {
   CreateArtistDto,
   PublicArtistDTO,
@@ -21,12 +22,14 @@ import { ArtistService } from './artist.service';
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
+  @Auth()
   @Get()
   async getAllArtists(): Promise<PublicArtistDTO[]> {
     const artists = await this.artistService.getAllArtists();
     return artists.map((artist) => new PublicArtistDTO(artist));
   }
 
+  @Auth()
   @Get(':id')
   async getArtist(
     @Param('id', ParseUUIDPipe) id: string,
@@ -38,12 +41,14 @@ export class ArtistController {
     return new PublicArtistDTO(artist);
   }
 
+  @Auth()
   @Post()
   async createArtist(@Body() body: CreateArtistDto): Promise<PublicArtistDTO> {
     const artist = await this.artistService.createArtist(body);
     return new PublicArtistDTO(artist);
   }
 
+  @Auth()
   @Put(':id')
   async updateArtist(
     @Param('id', ParseUUIDPipe) id: string,
@@ -56,6 +61,7 @@ export class ArtistController {
     return new PublicArtistDTO(artist);
   }
 
+  @Auth()
   @Delete(':id')
   @HttpCode(204)
   async deleteArtist(@Param('id', ParseUUIDPipe) id: string): Promise<void> {

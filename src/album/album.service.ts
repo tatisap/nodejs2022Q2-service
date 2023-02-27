@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Album, Artist } from '../lib/entities';
-import { CreateAlbumDto } from './album.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, FindOptionsWhere, Repository } from 'typeorm';
+import { Album, Artist } from '../lib/entities';
+import { CreateAlbumDto } from './album.dto';
 
 @Injectable()
 export class AlbumService {

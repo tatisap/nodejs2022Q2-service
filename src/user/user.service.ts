@@ -1,18 +1,20 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import {
   ForbiddenException,
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { User } from '../lib/entities';
-import { CreateUserDTO, UpdatePasswordDTO } from './user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
+import { ConfigService } from '@nestjs/config';
+import { User } from '../lib/entities';
+import { CreateUserDTO, UpdatePasswordDTO } from './user.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly configService: ConfigService,
   ) {}
   getAllUsers(): Promise<User[]> {
     return this.userRepository.find();
@@ -22,13 +24,19 @@ export class UserService {
     return this.userRepository.findOneBy({ id });
   }
 
+  getUserByLogin(login: string): Promise<User | null> {
+    return this.userRepository.findOneBy({ login });
+  }
+
   async createUser({ login, password }: CreateUserDTO): Promise<User> {
     const conflict = await this.userRepository.findOneBy({ login });
     if (conflict) {
       throw new UnprocessableEntityException('Login already taken');
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(
+      password,
+      this.configService.get('CRYPT_SALT'),
+    );
     const user = this.userRepository.create({
       login,
       password: hashedPassword,

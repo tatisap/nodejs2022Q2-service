@@ -13,7 +13,7 @@ export const dbConfig = () => ({
     username: process.env.POSTGRES_USERNAME,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
-    logging: true,
+    // logging: true,
     entities,
     migrations,
     migrationsRun: true,

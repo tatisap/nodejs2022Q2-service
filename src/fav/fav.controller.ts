@@ -9,9 +9,10 @@ import {
   Post,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { PublicAlbumDTO } from 'src/album/album.dto';
-import { PublicArtistDTO } from 'src/artist/artist.dto';
-import { PublicTrackDTO } from 'src/track/track.dto';
+import { Auth } from '../lib/decorators';
+import { PublicAlbumDTO } from '../album';
+import { PublicArtistDTO } from '../artist';
+import { PublicTrackDTO } from '../track';
 import { AddToFavoritesDTO, GetAllFavoritesResponseDTO } from './fav.dto';
 import { FavService } from './fav.service';
 
@@ -19,6 +20,7 @@ import { FavService } from './fav.service';
 export class FavController {
   constructor(private readonly favService: FavService) {}
 
+  @Auth()
   @Get()
   async getAllFavorites(): Promise<GetAllFavoritesResponseDTO> {
     const { artists, albums, tracks } = await this.favService.getAllFavorites();
@@ -29,6 +31,7 @@ export class FavController {
     });
   }
 
+  @Auth()
   @Post('track/:id')
   async addTrack(
     @Param('id', ParseUUIDPipe) id: string,
@@ -40,6 +43,7 @@ export class FavController {
     return { message: `Track (${id}) has been added to favorites` };
   }
 
+  @Auth()
   @Delete('track/:id')
   @HttpCode(204)
   async deleteTrack(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
@@ -49,6 +53,7 @@ export class FavController {
     }
   }
 
+  @Auth()
   @Post('album/:id')
   async addAlbum(
     @Param('id', ParseUUIDPipe) id: string,
@@ -60,6 +65,7 @@ export class FavController {
     return { message: `Album (${id}) has been added to favorites` };
   }
 
+  @Auth()
   @Delete('album/:id')
   @HttpCode(204)
   async deleteAlbum(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
@@ -69,6 +75,7 @@ export class FavController {
     }
   }
 
+  @Auth()
   @Post('artist/:id')
   async addArtist(
     @Param('id', ParseUUIDPipe) id: string,
@@ -83,6 +90,7 @@ export class FavController {
     return { message: `Artist (${id}) has been added to favorites` };
   }
 
+  @Auth()
   @Delete('artist/:id')
   @HttpCode(204)
   async deleteArtist(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
